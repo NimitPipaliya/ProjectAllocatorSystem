@@ -1,0 +1,8 @@
+<div class="home">
+    <div class="text custom">
+        <h1 class="display-4">Welcome {{username | capitalize}}</h1>
+        <p><b><h2>Civica Project Allocator</h2></b></p>
+        <h6 *ngIf="username == null">Don't have an account? <a [routerLink]="['/signup']" class="custom-link" routerLinkActive="router-link-active">Sign Up</a></h6>
+        <h6 *ngIf="username == null">Already have an account? Click here to <a [routerLink]="['/signin']"  class="custom-link" routerLinkActive="router-link-active">Sign In</a>.</h6>
+    </div>
+</div>

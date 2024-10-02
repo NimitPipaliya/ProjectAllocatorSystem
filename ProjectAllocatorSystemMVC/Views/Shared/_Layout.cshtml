@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProjectAllocatorSystemMVC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProjectAllocatorSystemMVC.styles.css" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/regular.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white navbar-custom box-shadow" style="font-family: SegoeUI-SemiBold-final, Segoe UI Semibold, SegoeUI-Regular-final, Segoe UI, Segoe, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Tahoma, Helvetica, Arial, sans-serif; font-size: 16px; text-color:white">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/civicawhite.png" alt="Girl in a jacket" width="125" height="28" style="margin-right: 55px;" />
+                    Project Allocator 
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @{  
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                var userRole = User.FindFirst("UserRole").Value;
+                                @if(userRole == "3") // Admin
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Admin" asp-action="Index">Employees</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="GetEmployeeData">Benched Employee</a>
+                                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="GetEmployeesByJobRoleAndType">Based on Job Role</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                @if(userRole == "1") //Allocator
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Allocator" asp-action="Index">Allocator</a>
+                                    </li>
+                                }
+                                @if(userRole == "2") //Manager
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    <partial name="_AuthenticationView" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main">
+                @{
+                    var successMessage = TempData["SuccessMessage"]?.ToString();
+                    var errorMessage = TempData["ErrorMessage"]?.ToString();
+                }
+                @if (!string.IsNullOrWhiteSpace(successMessage))
+                {
+                <div id="autoCloseAlert" class="alert alert-success alert-dismissible fade show mt-3">
+                        <b>Success:</b> @successMessage
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(errorMessage))
+                {
+                <div id="autoCloseAlert" class="alert alert-danger alert-dismissible fade show mt-3">
+                        <b>Error:</b> @errorMessage
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <div id="messageContainer" class="message-container"></div>
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer">
+        <div class="container">
+            &copy; 2024 - Civica Project Allocator - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        setTimeout(function () {
+            document.getElementById('autoCloseAlert').classList.add('fade');
+            document.getElementById('autoCloseAlert').classList.add('show');
+            document.getElementById('autoCloseAlert').style.display = 'none';
+        }, 5000) // 5000 milliseconds = 5 seconds
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<style>
+    .navbar-custom {
+        background-color: #009CA6;
+    }
+
+    .dropdown-item:hover {
+        color: white;
+        transition: 0.3s;
+    }
+
+    .nav-link {
+        color: #fff;
+    }
+
+    .nav-item{
+        border-radius: 9px;
+    }
+
+    .nav-item:hover {
+        background-color: #D62598;
+        border-radius: 9px;
+        transition: 0.3s;
+    }
+
+    .footer {
+        background-color: #009CA6;
+        color: #fff;
+        text-align: center;
+    }
+
+    .footer a {
+        color: #fff; /* White text color for links */
+        text-decoration: none; /* Remove underline */
+    }
+
+</style>

@@ -1,0 +1,197 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model AddEmployeeViewModel
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+<div class="container">
+    <div class="row justify-content-center mt-2">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>Add Employee</b></h5>
+                <div class="card-body">
+                    <form asp-action="AddEmployee" asp-controller="admin" method="post" class="needs-validation" id="empForm" >
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="EmployeeName" class="control-label"></label>
+                                <input asp-for="EmployeeName" class="form-control" />
+                                <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="EmailId" class="control-label"></label>
+                                <input asp-for="EmailId" class="form-control" />
+                                <span asp-validation-for="EmailId" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="BenchStartDate" class="control-label"></label>
+                                <input asp-for="BenchStartDate" class="form-control" type="date" />
+                                <span asp-validation-for="BenchStartDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="BenchEndDate" class="control-label"></label>
+                                <input asp-for="BenchEndDate" class="form-control" type="date" />
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="JobRoleId" class="form-label"></label>
+                            <select asp-for="JobRoleId"class="form-select">
+                                <option value="0" selected>-- Select --</option>
+                                <option value="1">Developer</option>
+                                <option value="2">Tester</option>
+                                <option value="3">Business Analyst</option>
+                            </select>
+                            <span asp-validation-for="JobRoleId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Skills" class="form-label"><b>Skills:</b></label>
+                            <textarea id="skills" asp-for="Skills" class="form-control" placeholder="Add skills separated by commas" rows="3"></textarea>
+                            <span asp-validation-for="Skills" class="text-danger"></span>
+
+                            <div id="skillSuggestions" class="skill-suggestions" style="display: none;">
+                                <ul id="suggestionList" class="list-group"></ul>
+                            </div>
+
+                            <div id="selectedSkills" class="selected-skills">
+                                @if (Model.Skills != null)
+                                {
+                                    foreach (var skill in Model.Skills)
+                                    {
+                                        <span class="selected-skill">
+                                            @skill
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSkill('@skill')">x</button>
+                                        </span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <div class="btn-group">
+                            <input id="submitButton" type="submit" class="btn btn-primary" value="Add"/>&nbsp;
+                            <a asp-action="Index" asp-controller="Admin" class="btn btn-outline-danger"><b>Cancel</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var skillsSuggestions = [
+            "Web Forms", "MVC", ".Net Core", "Blazor", "Angular", "PHP", "Java", "React",
+            "TypeScript", "Power BI", "MS SQL Server", "Oracle"
+        ];
+
+        $('#skills').on('input', function () {
+            var value = $(this).val().trim();
+            var segments = value.split(',');
+            var lastSegment = segments[segments.length - 1].trim();
+
+            if (lastSegment.length > 2) {
+                var filteredSuggestions = skillsSuggestions.filter(function (skill) {
+                    return skill.toLowerCase().includes(lastSegment.toLowerCase()) && !value.includes(skill);
+                });
+
+                var listItems = '';
+                filteredSuggestions.forEach(function (skill) {
+                    listItems += '<li class="list-group-item suggestion-item" onclick="addSkill(\'' + skill + '\')" style="cursor: pointer;">' + skill + '</li>';
+                });
+
+                $('#suggestionList').html(listItems);
+                $('#skillSuggestions').show();
+            } else {
+                $('#skillSuggestions').hide();
+            }
+        });
+        function addSkill(skill) {
+            var skillsTextArea = document.getElementById('skills');
+            var currentValue = skillsTextArea.value.trim();
+            var segments = currentValue.split(',');
+            var lastSegment = segments[segments.length - 1].trim();
+
+            if (lastSegment.length > 2) {
+                skillsTextArea.value = currentValue.replace(lastSegment, skill);
+            } else {
+                skillsTextArea.value += skill;
+            }
+
+            $('#skillSuggestions').hide();
+            validateSkills();
+        }
+
+        function removeSkill(skill) {
+            var skillsTextArea = document.getElementById('skills');
+            var currentValue = skillsTextArea.value;
+            var updatedValue = currentValue.replace(skill, '').replace(/,\s*,/g, ',').replace(/,$/, '').trim();
+            skillsTextArea.value = updatedValue;
+            $('#selectedSkills').find('span:contains("' + skill + '")').remove();
+            validateSkills();
+        }
+
+    </script>
+}
+
+<style>
+    .custom-card {
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-family: sans-serif;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .custom-card .card-header {
+            background-color: #009ca6;
+            color: white;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .custom-card .card-body {
+            padding: 20px;
+        }
+
+        .custom-card form {
+            margin-bottom: 0;
+        }
+
+        .custom-card .btn-primary {
+            width: 100%;
+            background-color: #009ca6;
+            color: white;
+        }
+
+        .custom-card .btn-outline-danger {
+            width: 100%;
+            border-color: #DDDDDD;
+            background-color: #DDDDDD;
+            color: black;
+        }
+
+        .custom-card .btn-primary {
+            width: 100%;
+            background-color: #009ca6;
+            color: white;
+        }
+
+        .custom-card .btn-outline-danger {
+            width: 100%;
+            border-color: #DDDDDD;
+            background-color: #DDDDDD;
+            color: black;
+        }
+</style>

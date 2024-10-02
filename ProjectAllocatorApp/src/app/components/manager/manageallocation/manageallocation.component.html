@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
+      <div class="card custom-card">
+        <h5 class="card-header text-center"><b>Allocate to Training / Internal project</b></h5>
+        <div *ngIf="loading" class="text-center p-3">
+          <img src="assets/loadergif.gif" alt="loading" />
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="benchAllocation" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="type" class="form-label">Type:</label>
+              <select class="form-control" id="type" formControlName="type">
+                <option value=null selected disabled>-- Select Type --</option>
+                <option value="1">Training</option>
+                <option value="2">Internal Project</option>
+              </select>
+              <div *ngIf="formControls['type'].invalid && formControls['type'].touched">
+                <small class="text-danger" *ngIf="formControls['type'].errors?.['required']">
+                  Type is required.
+                </small>
+              </div>
+            </div>
+           
+            <div class="mb-3" *ngIf="benchAllocation.get('type')?.value === '1'">
+              <label class="form-label">Select Training:</label>
+              <select class="form-control" formControlName="trainingId">
+                <option value="0" disabled >-- Select --</option>
+                <option value="2">Horizon Training</option>
+                <option value="3">Angular Training</option>
+                <option value="4">Dot Net Training</option>
+                <option value="5">Testing Training</option>
+              </select>
+              <div *ngIf="formControls['trainingId'].invalid && formControls['trainingId'].touched">
+                <small class="text-danger" *ngIf="formControls['trainingId'].errors?.['required']">
+                  Training is required.
+                </small>
+              </div>
+            </div>
+
+             <div class="mb-3" *ngIf="benchAllocation.get('type')?.value === '2'">
+                <label class="form-label">Select Internal Project:</label>
+                <select class="form-control" formControlName="internalProjectId">
+                  <option value="0" disabled >-- Select --</option>
+                  <option value="2">Civica Employee Master</option>
+                  <option value="3">Civica Shopping App</option>
+                  <option value="4">Civica Book Library</option>
+                  <option value="5">Army Enrollment App</option>
+                </select>
+                <div *ngIf="formControls['internalProjectId'].invalid && formControls['internalProjectId'].touched">
+                  <small class="text-danger" *ngIf="formControls['internalProjectId'].errors?.['required']">
+                    Project is required.
+                  </small>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="details"> Details</label>
+                <div class="input-group">
+                  <textarea type="textarea" class="form-control" id="details" name="details" formControlName="details" required minlength="10"></textarea>
+                </div>
+                <div *ngIf="benchAllocation.get('details')?.invalid && benchAllocation.get('details')?.touched">
+                  <small class="text-danger" *ngIf="benchAllocation.get('details')?.errors?.['required']">Details are required.</small>
+                  <small class="text-danger" *ngIf="benchAllocation.get('details')?.errors?.['minlength']">Details must be at least 10
+                    characters long.</small>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2">
+                <div class="btn-group">
+                  <button type="submit" [disabled]="!benchAllocation.valid" class="btn btn-primary">Add allocation</button>&nbsp;
+                  <button type="submit" class="btn btn-outline-danger" [routerLink]="['/benchlist']" routerLinkActive="router-link-active" >Back To List</button>
+                </div>
+              </div>  
+          </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

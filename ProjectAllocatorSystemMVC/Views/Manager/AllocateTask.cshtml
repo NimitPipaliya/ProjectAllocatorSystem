@@ -1,0 +1,142 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model ManagerAllocationViewModel 
+
+
+<div class="container">
+    <div class="row justify-content-center mt-2">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>Allocate to Training / Internal project</b></h5>
+
+                <div class="card-body">
+                    <form asp-action="AllocateTask" method="post" class="needs-validation" novalidate>
+
+                        <input asp-for="EmployeeId" type="hidden" />
+                        <input asp-for="TypeId" type="hidden" />
+
+                        <div class="mb-3">
+                            <label asp-for="type" class="form-label">Type:</label>
+                            <select asp-for="type" class="form-control" id="type" onchange="toggleTrainingOptions()">
+                                <option value="">-- Select Type --</option>
+                                <option value="1">Training</option>
+                                <option value="2">Internal Project</option>
+                            </select>
+                            <span asp-validation-for="type" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="trainingDropdownContainer" style="display:none;">
+                            <label asp-for="TrainingId" class="form-label">Select Training:</label>
+                            <select asp-for="TrainingId" class="form-control">
+                                <option value="1" selected>-- Select --</option>
+                                <option value="2">Horizon Training</option>
+                                <option value="3">Angular Training</option>
+                                <option value="4">Dot Net Training</option>
+                                <option value="5">Testing Training</option>
+                            </select>
+                            <span asp-validation-for="TrainingId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="internalProjectDropdownContainer" style="display:none;">
+                            <label asp-for="InternalProjectId" class="form-label">Select Internal Project:</label>
+                            <select asp-for="InternalProjectId" class="form-control">
+                                <option value="1" selected>-- Select --</option>
+                                <option value="2">Civica Employee Master</option>
+                                <option value="3">Civica Shopping App</option>
+                                <option value="4">Civica Book Library</option>
+                                <option value="5">Army Enrollment App</option>
+                            </select>
+                            <span asp-validation-for="InternalProjectId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Details" class="form-label">Details:</label>
+                            <textarea asp-for="Details" class="form-control" rows="3" required minlength="10"></textarea>
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Add Allocation</button> &nbsp;
+                                <a asp-action="Index" asp-controller="Manager" class="btn btn-outline-danger">Back To List</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@section Scripts {
+    <script>
+        function toggleTrainingOptions() {
+            var selectedType = document.getElementById("type").value;
+
+            document.getElementById("trainingDropdownContainer").style.display = (selectedType === "1") ? "block" : "none";
+            document.getElementById("internalProjectDropdownContainer").style.display = (selectedType === "2") ? "block" : "none";
+        }
+    </script>
+}
+
+
+
+<style>
+    .custom-card {
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-family: sans-serif;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .custom-card .card-header {
+        background-color: #009ca6;
+        color: white;
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .custom-card .card-body {
+        padding: 20px;
+    }
+
+    .custom-card form {
+        margin-bottom: 0;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+
+    .custom-link {
+        color: #009CA6; /* Grey color */
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s ease; /* Smooth transition for color change */
+    }
+</style>

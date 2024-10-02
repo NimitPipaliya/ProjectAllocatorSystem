@@ -1,0 +1,102 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@{
+    var jobRoleId = ViewBag.JobRoleId;
+}
+
+@model List<EmployeeViewModel> 
+    <h1 class="text-center">Report</h1>
+    <h3 class="text-center">Benched Employee Based On Job Role</h3>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="GetEmployeesByJobRoleAndType" asp-controller="Admin" method="get">
+            <div class="form-group">
+                <label class="control-label">Select Job Role:</label>
+                <select id="jobRoleId" name="jobRoleId" class="form-control">
+                   
+                        <option value="" selected disabled>---Select Job Role----</option>
+
+                    
+                   @*  else
+                    {
+                        <option value="@ViewBag.JobRoleId">@jobName</option>
+                    } *@
+                    @foreach (var role in ViewBag.JobRole)
+                    {
+                        <option value="@role.JobRoleId" selected='@(ViewBag.JobRoleId == role.JobRoleId)'>@role.JobRoleName</option>
+                    }
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model != null)
+{
+    <table class="table table-striped books-table" style="font-size: smaller; text-align: center; border-color: black; border-top: black;" >
+        <thead>
+            <tr>
+              
+                <th>Employee Name</th>
+                <th>Bench Start Date</th>
+                <th>Bench End Date</th>
+                <th>Job Role</th>
+
+
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                   
+                        <td>@employee.EmployeeName</td>
+
+                        <td>@employee.BenchStartDate.ToString("dd/MM/yyyy")</td>
+
+
+                        @if (employee.BenchEndDate!= null)
+                        {
+                            <td>@employee.BenchEndDate?.ToString("dd/MM/yyyy")</td>
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                        <td>@employee.JobRole.JobRoleName</td>
+                        
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr style="background: darkgrey;">
+                    <td colspan="9" class="text-center justify-content-center">No Employee Found</td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+}
+else
+{
+    <p>No employees found for the selected job role.</p>
+}
+<script src="
+https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var selectedDate = document.getElementById("jobRoleId");
+        selectedDate.addEventListener("change", function () {
+            window.location.href = '@Url.Action("GetEmployeesByJobRoleAndType", "Admin")?jobRoleId=' + encodeURIComponent(selectedDate.value);
+            console.log(selectedDate.value);
+
+        });
+    });
+</script>

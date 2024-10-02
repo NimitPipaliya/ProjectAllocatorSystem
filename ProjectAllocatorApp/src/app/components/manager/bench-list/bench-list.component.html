@@ -1,0 +1,108 @@
+ <div class="container" style="background-color: white;">
+    <h1 class="text-center" *ngIf="!loading">Employees</h1>
+    <div *ngIf="loading" class="loader-container">
+        <img src="assets/loadergif.gif" alt="Loading..." class="loader-image">
+    </div>
+ 
+    <br/>
+<div>
+    <div class="input-group">
+        <div class="form-outline" data-mdb-input-init  style="width: 100%;">
+            <input id="search-focus" type="search" id="form" class="form-control" style="border-color: #D62598;" [(ngModel)]="search"
+                (input)="searchEmployee()"  placeholder="Search by name..." />
+        </div>
+        <div *ngIf="search && search.length <= 2" class="text-secondary">Search query must be at least 3
+            characters
+        </div>
+    </div>
+</div>
+    <br >
+    <div class="table-responsive" *ngIf="!loading">
+ 
+        <table class="table table-striped employees-table" style="font-size: smaller; text-align: center; border-color: black; border-top: black;">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>
+                        <div (click)="sortColumn('name')" class="sort">
+                            Name
+                                <div *ngIf="sortOrder=='default' || sortBy !== 'name'" class="fa fa-sort arrowup"></div>
+                                <div *ngIf="sortOrder=='asc'&& sortBy=='name'" class="fas fa-sort-alpha-desc arrowup"></div>
+                                <div *ngIf="sortOrder=='desc' && sortBy=='name'" class="fas fa-sort-alpha-asc arrowdown"></div>
+                            </div>
+                    </th>
+                    <th>Email Id</th>
+                    <th>
+                        <div (click)="sortColumn('jobRole')" class="sort">
+                            Job Role
+                            <div *ngIf="sortOrder=='default' || sortBy !=='jobRole'" class="fa fa-sort arrowup"></div>
+                            <div *ngIf="sortOrder=='asc'&& sortBy=='jobRole'" class="fas fa-sort-alpha-desc arrowup"></div>
+                            <div *ngIf="sortOrder=='desc' && sortBy=='jobRole'" class="fas fa-sort-alpha-asc arrowdown"></div>
+                        </div>
+                    </th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="employees && employees.length > 0 && totalemployees != 0; else noEmployee">
+              
+                <tr *ngFor="let employee of employees;let i = index" style="vertical-align: middle;">
+                    <ng-container *ngIf="employee.typeId == 1 && (employee.trainingId === 1 && employee.internalProjectId === 1)" >
+                            <td>{{calculateSrNo(i)}}</td>
+                            <td>{{employee.employeeName}}</td>
+                            <td>{{employee.emailId}}</td >
+                            <td>{{employee.jobRole.jobRoleName}}</td>
+                            <!-- <td *ngIf="employee.trainingId == 1 && employee.internalProjectId == 1">-</td> -->
+                            <td>-</td>
+                            <td *ngIf="employee.typeId==1"><button class="btn btn-outline-dark" [routerLink]="['/manageallocation/',employee.employeeId]" routerLinkActive="router-link-active" >Allocate</button></td>
+                        </ng-container>
+                        <ng-container *ngIf="employee.typeId == 1 && (employee.trainingId !== 1 || employee.internalProjectId !== 1)" >
+                            <td>{{calculateSrNo(i)}}</td>
+                            <td>{{employee.employeeName}}</td>
+                            <td>{{employee.emailId}}</td >
+                            <td>{{employee.jobRole.jobRoleName}}</td>
+                            <!-- <td *ngIf="employee.trainingId == 1 && employee.internalProjectId == 1">-</td> -->
+                            <td>{{ employee.trainingId === 1 ? 'Internal project' : 'Training ' }}</td>
+                            <td *ngIf="employee.typeId==1"><button class="btn btn-outline-dark" [routerLink]="['/manageallocation/',employee.employeeId]" routerLinkActive="router-link-active" >Allocate</button></td>
+                        </ng-container>
+               
+                </tr>
+       
+            </tbody>
+            <ng-template #noEmployee>
+                <tr *ngIf="!loading" style="background: darkgrey;">
+                    <td colspan="8" class="text-center justify-content-center">No Employee Found</td>
+                </tr>
+            </ng-template>
+        </table>
+    </div>
+ 
+    <div *ngIf="!loading">
+    <div class="pagination-container" *ngIf="totalemployees != 0" style="display: flex;flex-direction: row-reverse;justify-content: space-between;" >
+ 
+ 
+        <div class="pagination-buttons">
+            <button class="btn btn-outline-dark" (click)="onPrevPage(search)" [disabled]="currentPage === 1">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+   
+            <button class="btn btn-outline-dark custom" *ngFor="let pageNumber of totalPages"
+                (click)="onPageChange(pageNumber, search)" [disabled]="currentPage === pageNumber"
+                [ngClass]="{'btn-secondary': isActive(pageNumber), 'btn-outline-dark': !isActive(pageNumber)}">
+                {{ pageNumber }}
+            </button>
+   
+            <button class="btn btn-outline-dark" (click)="onNextPage(search)" [disabled]="currentPage === totalPages.length">
+                 <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+ 
+        <div class="page-size-selection" *ngIf="!loading">
+            <span>Page Size: </span>
+            <select [(ngModel)]="pageSize" (change)="onPageSizeChange(search)" class="custom-select">
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+    </div>

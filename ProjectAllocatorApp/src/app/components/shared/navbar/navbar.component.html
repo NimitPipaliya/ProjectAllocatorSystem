@@ -1,0 +1,82 @@
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white navbar-custom  box-shadow " style="font-family: SegoeUI-SemiBold-final, Segoe UI Semibold, SegoeUI-Regular-final, Segoe UI, Segoe, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Tahoma, Helvetica, Arial, sans-serif; font-size: 16px;">
+        <div class="container-fluid">
+            
+<a class="navbar-brand text-white" [routerLink]="['/home']" routerLinkActive="router-link-active"><b style="font-size: 16px;">    
+    <img src="assets/CivicaWhite.png" alt="Girl in a jacket" width="120" height="30" style="margin-right: 20px;">
+    Allocator System</b></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                  aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+        
+                    <li class="nav-item" *ngIf="userRoleId=='3'">
+                        <a class="nav-link text-white" [routerLink]="['/employeeList']" routerLinkActive="router-link-active"><b>Employees</b></a>
+                    </li>
+                    <li class="nav-item dropdown" *ngIf="userRoleId == '3'">
+                        <a class="nav-link dropdown-toggle text-white" id="reportsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reports
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reportsDropdown">
+                            
+                            <li><a class="dropdown-item" [routerLink]="['/getemployeebasedondaterange']" routerLinkActive="router-link-active">Benched Employee</a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/getemployeebyjobrole']" routerLinkActive="router-link-active">Based on Job Role</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="nav-item" *ngIf="userRoleId=='1'">
+                        <a class="nav-link text-white" [routerLink]="['/allocatorlist']" routerLinkActive="router-link-active"><b>Allocator</b></a>
+                    </li>
+                    <li class="nav-item" *ngIf="userRoleId=='2'">
+                        <a class="nav-link text-white" [routerLink]="['/benchlist']" routerLinkActive="router-link-active"><b>Manager</b></a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav ml-auto" *ngIf="!isAuthenticated">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" [routerLink]="['/signup']" routerLinkActive="router-link-active">
+                            <span class="fas fa-user text-white"></span>
+                            <span class="hover-text"><b> Sign Up</b></span>
+                        </a>
+                    </li>
+                    
+                  <li class="nav-item"> 
+                      <a class="nav-link text-white" [routerLink]="['/signin']" routerLinkActive="router-link-active">
+                        <span class="fa fa-sign-in text-white"></span>
+                        <span class="hover-text"><b> Sign In</b></span>
+                      </a>
+                  </li>
+              </ul>
+                
+              <ul class="nav navbar-nav ml-auto" *ngIf="isAuthenticated">
+                <li ngbDropdown class="nav-item dropdown" *ngIf="userRoleId == '3'" display="dynamic">
+                    <a ngbDropdownToggle class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button"
+                        aria-expanded="false">
+                        <span class=""> </span> <b> {{ username | capitalize}}</b>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="signOut()" routerLink="/signOut"><i class="fa fa-sign-out"></i> Sign Out</a>
+                        <!-- Add more dropdown items here as needed -->
+                    </div>
+                </li>
+                
+                <li ngbDropdown class="nav-item dropdown" *ngIf="userRoleId != '3'" display="dynamic">
+                    <a ngbDropdownToggle class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button"
+                        aria-expanded="false">
+                        <span class="fas fa-user"> </span> <b> {{ username | capitalize}}</b>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="navbarDropdown">
+                        <a *ngIf="userRoleId == '2' " class="dropdown-item " routerLink="/changepassword1"><i class="fa fa-key"></i> Change Password</a>
+                        <a *ngIf="userRoleId == '1' " class="dropdown-item " routerLink="/changepassword"><i class="fa fa-key"></i> Change Password</a>
+                        <a class="dropdown-item" (click)="signOut()" routerLink="/signOut"><i class="fa fa-sign-out"></i> Sign Out</a>
+                        <!-- Add more dropdown items here as needed -->
+                    </div>
+                </li>
+                
+              </ul>
+               
+            </div>
+        </div>
+    </nav>
+  </header>

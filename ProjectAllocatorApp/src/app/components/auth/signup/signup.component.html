@@ -1,0 +1,190 @@
+<div class="container">
+  <div class="row justify-content-center mt-1">
+    <div class="col-lg-8">
+      <div class="card custom-card">
+        <h5 class="card-header text-center"><b>Sign Up</b></h5>
+
+        <div *ngIf="loading">
+          <img src="assets/loadergif.gif" alt="Loading...">
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="signUpForm" class="needs-validation" (ngSubmit)="onSubmit()" novalidate>
+            <div class="row mb-2">
+    
+              <div class="col-md-6">
+                <div class="col">
+                  <label class="form-label" for="name"><b> Name:</b></label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="name" name="name" formControlName="name" required minlength="2">
+                  </div>
+                  <div *ngIf="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched">
+                    <small class="text-danger" *ngIf="signUpForm.get('name')?.errors?.['required']">Name is required.</small>
+                    <small class="text-danger" *ngIf="signUpForm.get('name')?.errors?.['minlength']">Name must be at least 2
+                      characters long.</small>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div class="col-md-6">
+
+                <div class="col">
+                  <label class="form-label" for="loginId"><b> Login Id:</b></label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="loginId" name="loginId" formControlName="loginId" required minlength="2">
+                  </div>
+                  <div *ngIf="signUpForm.get('loginId')?.invalid && signUpForm.get('loginId')?.touched">
+                    <small class="text-danger" *ngIf="signUpForm.get('loginId')?.errors?.['required']">Login id is required.</small>
+                    <small class="text-danger" *ngIf="signUpForm.get('loginId')?.errors?.['minlength']">Login id must be at least 2
+                      characters long.</small>
+                  </div>
+                </div>
+                
+              </div>
+
+            </div>
+    
+            
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label" for="phone"><b>Phone Number:</b></label>
+                <div class="input-group">
+                  <input type="tel" class="form-control" id="phone" name="phone" formControlName="phone" required pattern="[0-9]*"
+                    minlength="10" maxlength="12">
+                </div>
+                <div *ngIf="signUpForm.get('phone')?.invalid && signUpForm.get('phone')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('phone')?.errors?.['required']">Phone number is
+                    required.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('phone')?.errors?.['pattern']">Invalid phone number format.
+                    Please enter digits only.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('phone')?.errors?.['minlength']">Phone number must be at least
+                    10 digits long.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('phone')?.errors?.['maxlength']">Phone number cannot exceed 12
+                    digits.</small>
+                </div>
+              </div>
+    
+              <div class="col-md-6">
+                <label class="form-label" for="email"><b> Email:</b></label>
+                <div class="input-group">
+                  <input type="email" class="form-control" id="email" name="email" formControlName="email" required email>
+                </div>
+                <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email format.</small>
+                </div>
+              </div>
+            </div>
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label" for="password"><b>Password:</b></label>
+                <div class="input-group">
+                  <input type="password" id="password" name="password" class="form-control" formControlName="password" required
+                    minlength="8" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$">
+                </div>
+                <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('password')?.errors?.['required']">Password is
+                    required.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 8
+                    characters long.</small>
+                  <small class="text-danger" *ngIf="signUpForm.get('password')?.errors?.['pattern']">Password must be alphanumeric
+                    and contain at least one special character.</small>
+                </div>
+              </div>
+    
+              <div class="col-md-6">
+                <label for="confirmPassword" class="form-label"><b>Confirm Password:</b></label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" />
+                </div>
+                <div *ngIf="signUpForm.get('confirmPassword')?.invalid && signUpForm.get('confirmPassword')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('confirmPassword')?.errors?.['required']">
+                    Confirm password is required
+                  </small>
+                </div>
+                <div *ngIf="signUpForm.get('confirmPassword')?.dirty">
+                  <small class="text-danger" *ngIf="signUpForm.hasError('passwordMismatch')">Passwords do not match.</small>
+                </div>
+              </div>
+            </div>
+    
+            <div class="row mb-3">
+    
+              <div class="col-md-6">
+              <label class="form-label"><b>Gender:</b></label>
+              <div class="d-flex align-items-center">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="male" name="gender" value="M" formControlName="gender" required>
+                  <label class="form-check-label" for="male">Male</label>
+                </div>
+               
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="female" name="gender" value="F" formControlName="gender" required>
+                  <label class="form-check-label" for="female">Female</label>
+                </div>
+              </div>
+              <div *ngIf="signUpForm.get('gender')?.invalid && signUpForm.get('gender')?.touched">
+                <small class="text-danger">Gender is required.</small>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label" for="userRoleId"><b>User Role:</b></label>
+              <select id="userRoleId" name="userRoleId" class="form-control"
+                formControlName="userRoleId" required>
+                <option value=null selected disabled style="text-align: center;">Select User Role</option>
+                <option *ngFor="let role of roles" [value]="role.userRoleId">{{ role.userRoleName }}</option>
+              </select>
+              <div *ngIf="(signUpForm.get('userRoleId')?.invalid || signUpForm.get('userRoleId')?.value == 0) && signUpForm.get('userRoleId')?.touched">
+                <small class="text-danger" *ngIf="signUpForm.get('userRoleId')?.errors?.['required']">User role is required.</small>
+              </div>
+            </div>  
+          </div>
+            <div class="row mb-2 p-1">
+              <div class="col-md-6">
+                <label class="form-label" for="securityQuestionId"><b>Security question:</b></label>
+                <select id="securityQuestionId" name="securityQuestionId" class="form-control" formControlName="securityQuestionId"
+                  required>
+                  <option value=null selected disabled style="text-align: center;">Select Password Hint Question</option>
+                  <option *ngFor="let question of questions" [value]="question.securityQuestionId">{{ question.securityQuestionName
+                    }}</option>
+                </select>
+                <div
+                  *ngIf="(signUpForm.get('securityQuestionId')?.invalid || signUpForm.get('securityQuestionId')?.value == 0) && signUpForm.get('securityQuestionId')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('securityQuestionId')?.errors?.['required']">Password hint
+                    question is required.</small>
+                </div>
+              </div>
+            
+              <div class="col-md-6">
+                <label class="form-label" for="answer"><b>Answer:</b></label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="answer" name="answer" formControlName="answer" required>
+                </div>
+                <div *ngIf="signUpForm.get('answer')?.invalid && signUpForm.get('answer')?.touched">
+                  <small class="text-danger" *ngIf="signUpForm.get('answer')?.errors?.['required']">Answer is required.</small>
+                </div>
+              </div>
+            
+            </div>
+
+            <div class="d-grid gap-2">
+              <div class="btn-group">
+                <button type="submit" [disabled]="!signUpForm.valid" class="btn btn-primary">Sign up</button> &nbsp;
+                <button type="button" class="btn btn-outline-danger" [routerLink]="['/signin']">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+  

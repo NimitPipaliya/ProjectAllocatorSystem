@@ -1,0 +1,48 @@
+<div class="container" style="background-color: white;">
+  <h1 class="text-center">Report</h1>
+  <h3 class="text-center">Benched Employee Based On Job Role</h3>
+  <div *ngIf="loading" class="loader-container">
+    <img src="assets/loadergif.gif" alt="Loading..." class="loader-image">
+  </div>
+  <div class="row">
+    <div class="col-lg-6 mt-3 text">
+      <label for="jobRoleSelect">Select Job Role:</label>
+      <select id="jobRoleSelect" [(ngModel)]="selectedJobRoleId" class="form-control" (change)="getEmployeeBasedOnJobRole(); employees = []" style="border-color: #D62598;">
+        <option value="" disabled selected>-- Select Role --</option>
+        <option *ngFor="let jobRole of jobRoles" [value]="jobRole.jobRoleId">{{ jobRole.jobRoleName }}</option>
+      </select>
+    </div>  
+  </div>
+
+  <div class="table-responsive mt-3" *ngIf="!loading">
+    <table class="table table-striped books-table" style="font-size: smaller; text-align: center;" *ngIf="selectedJobRoleId != ''">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Bench Start Date</th>
+          <th>Bench End Date</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="employees.length > 0">
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.employeeName }}</td>
+         
+          <td>{{ employee.benchStartDate | date}}</td>
+          <td *ngIf="employee.benchEndDate != null">{{ employee.benchEndDate | date}}</td>
+          <td *ngIf="employee.benchEndDate == null"> N/A </td>
+         
+        </tr>
+
+      </tbody>
+
+      <tbody *ngIf="employees.length == 0">
+        <tr>
+          <td colspan="4">No record found</td>
+        </tr>
+      </tbody>
+
+    </table>  
+  </div>
+</div>  
+

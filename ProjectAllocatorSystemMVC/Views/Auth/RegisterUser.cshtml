@@ -1,0 +1,156 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model RegisterViewModel
+
+<div class="container">
+    <div class="row justify-content-center mt-2">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>Sign Up</b></h5>
+                <div class="card-body">
+                    <form asp-action="RegisterUser" method="post">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="Name" class="control-label"><b>Name:</b></label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter your name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="LoginId" class="control-label"><b>LoginId:</b></label>
+                                <input asp-for="LoginId" class="form-control" placeholder="Enter your loginId" />
+                                <span asp-validation-for="LoginId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="Email" class="control-label"><b>Email:</b></label>
+                                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="Phone" class="control-label"><b>Contact Number:</b></label>
+                                <input asp-for="Phone" type="number" class="form-control" placeholder="Enter your phone number" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label asp-for="Password" class="control-label"><b>Password:</b></label>
+                                <input asp-for="Password" class="form-control" placeholder="Enter your password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="col">
+                                <label asp-for="ConfirmPassword" class="control-label"><b>Confirm Password:</b></label>
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Enter your confirm password" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label asp-for="Gender" class="control-label"><b>Gender:</b></label><br />
+                                    <label><input type="radio" asp-for="Gender" value="M" /> Male</label>
+                                    <label><input type="radio" asp-for="Gender" value="F" /> Female</label><br />
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="UserRoleId" class="control-label"><b>Select Role:</b></label>
+                                <select asp-for="UserRoleId" class="form-control" asp-items="@(new SelectList(ViewBag.UserRoleRoles, "UserRoleId", "UserRoleName"))">
+                                    <option value="0" disabled selected>---Select your role---</option>
+
+                                </select>
+                                <span asp-validation-for="UserRoleId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="SecurityQuestionId" class="control-label"><b>Security question:</b></label>
+                                <select asp-for="SecurityQuestionId" class="form-control" asp-items="@(new SelectList(ViewBag.SecurityQuestions, "SecurityQuestionId", "SecurityQuestionName"))">
+                                    <option value="0" disabled selected>---Select your security question---</option>
+
+                                </select>
+                                <span asp-validation-for="SecurityQuestionId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Answer" class="control-label"><b>Answer:</b></label>
+                                <input asp-for="Answer" class="form-control" placeholder="Enter your answer" />
+                                <span asp-validation-for="Answer" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary"><b>Submit</b></button> &nbsp;
+                                <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index"><b>Cancel</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-card {
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-family: sans-serif;
+        margin-bottom: 30px;
+    }
+
+        .custom-card .card-header {
+            background-color: #009ca6;
+            color: white;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .custom-card .card-body {
+            padding: 20px;
+        }
+
+        .custom-card form {
+            margin-bottom: 0;
+        }
+
+        .custom-card .btn-primary {
+            width: 100%;
+            background-color: #009ca6;
+            color: white;
+        }
+
+        .custom-card .btn-outline-danger {
+            width: 100%;
+            border-color: #DDDDDD;
+            background-color: #DDDDDD;
+            color: black;
+        }
+
+        .custom-card .btn-primary {
+            width: 100%;
+            background-color: #009ca6;
+            color: white;
+        }
+
+        .custom-card .btn-outline-danger {
+            width: 100%;
+            border-color: #DDDDDD;
+            background-color: #DDDDDD;
+            color: black;
+        }
+
+    .age .form-control {
+        background-color: transparent;
+        border: none;
+    }
+
+    .DOB .form-control {
+        width: 150px;
+    }
+</style>

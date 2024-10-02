@@ -1,0 +1,26 @@
+
+.home {
+    background: url('src/assets/civicabackground.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 78vh; /* Adjust height as needed */
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.text.custom {
+    margin-left: 8%;
+    color: black; /* Text color */
+    
+}
+.custom-link {
+    color: #009CA6; /* Grey color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.custom-link:hover {
+    color: #000; /* Change color on hover to blue */
+}
+

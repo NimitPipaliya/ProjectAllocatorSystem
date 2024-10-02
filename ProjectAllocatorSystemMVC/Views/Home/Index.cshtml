@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="home mb-0">
+    <div class="text-custom">
+        <h1 class="display-4  text-capitalize">Welcome @User.Identity.Name</h1>
+        <p><b><h2>Civica Project Allocator App</h2></b></p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <h6>Don't have an account? <a asp-action="RegisterUser" asp-controller="Auth" style="text-decoration: none">Sign Up</a>.</h6>
+            <h6>Already have an account? Click here to <a asp-action="LoginUser" asp-controller="Auth" style="text-decoration: none"> Sign In</a>.</h6>
+        }
+    </div>
+</div>
+
+<style>
+    .text.custom {
+        margin-left: 8%;
+        color: black; /* Text color */
+    }
+
+    .home {
+        background-image: url('images/civicabackground.png');
+        background-size: cover;
+        height: 79vh; /* Adjust height as needed */
+        display: flex;
+        width: 95.3vw;
+        align-items: center;
+        justify-content: flex-start;
+    }
+</style>

@@ -1,0 +1,187 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model IEnumerable<spViewModel>
+
+@{
+    ViewData["Title"] = "Employee Data";
+    string todayDate = DateTime.Today.ToString("yyyy-MM-dd");
+}
+<h1 class="text-center">Report</h1>
+<h3 class="text-center">Benched Employee Based On Date Range</h3>
+
+<div class="row">
+    <div class="col-lg-6 mt-3">
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+            @if (ViewBag.StartDate != null)
+            {
+                <input type="date" id="startDate" name="startDate" class="form-control" value="@ViewBag.StartDate">
+            }
+            else
+            {
+                <input type="date" id="startDate" name="startDate" class="form-control" value="@todayDate">
+
+            }
+            <div id="StartDateError" style="color: red; display:none;">*Please select start date</div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mt-3">
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" value="@ViewBag.EndDate">
+            </div>
+    </div>
+</div>
+
+<hr />
+<table class="table table-striped books-table" style="font-size: smaller; text-align: center; border-color: black; border-top: black;" id="employeeTable">
+        <thead>
+            <tr>
+
+                <th>Employee Name</th>
+                <th>Bench Start Date</th>
+                <th>Bench End Date</th>
+                <th>Training Name</th>
+                <th>Training Description</th>
+                <th>Project Name</th>
+
+                <th>Project Description</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                   
+                        <td>@employee.EmployeeName</td>
+                       <td>@employee.BenchStartDate.ToString("dd/MM/yyyy")</td>
+
+                        @if (employee.BenchEndDate.HasValue)
+                        {
+                            <td>@employee.BenchEndDate.Value.ToString("dd/MM/yyyy")</td>
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                        }
+                    
+                        @if(employee.TrainingName == "select")
+                        {
+                            <td>Not allocated</td>
+                        }
+                        else
+                        {
+                            <td>@employee.TrainingName</td>
+                        }
+                        @if (employee.TrainingDescription == "des")
+                        {
+                            <td>Not allocated</td>
+                        }
+                        else
+                        {
+                            <td>@employee.TrainingDescription</td>
+                        }
+                        @if (employee.ProjectName == "select")
+                        {
+                            <td>Not allocated</td>
+                        }
+                        else
+                        {
+                            <td>@employee.ProjectName</td>
+                        }
+                        @if (employee.ProjectDescription == "des")
+                        {
+                            <td>Not allocated</td>
+                        }
+                        else
+                        {
+                            <td>@employee.ProjectDescription</td>
+                        }
+
+                    </tr>
+                } 
+            }
+            else
+            {
+                <tr style="background: darkgrey;">
+                    <td colspan="9" class="text-center justify-content-center">No Employee Found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+@section Scripts {
+    <script>
+
+        $(function () {
+            $("#startDate").datepicker({
+                dateFormat: 'yy-mm-dd' // Adjust date format as needed
+            });
+            $("#endDate").datepicker({
+                dateFormat: 'yy-mm-dd' // Adjust date format as needed
+            });
+        });
+        
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var selectedDate = document.getElementById("endDate");
+            var startDateInput = document.getElementById("startDate");
+           
+            startDateInput.addEventListener("change", function () {
+
+                fetchData();
+
+            });
+
+
+            selectedDate.addEventListener("change", function () {
+                fetchData();
+            });
+
+
+
+            function fetchData() {
+                var startDate = startDateInput.value;
+                var endDate = selectedDate.value;
+
+                var url = '@Url.Action("GetEmployeeData", "Admin")';
+                url += '?startDate=' + encodeURIComponent(startDate);
+                url += '&endDate=' + encodeURIComponent(endDate);
+                console.log("StartDate :" + startDate)
+                if (startDate != null && startDate != "") {
+                    $('#StartDateError').hide();
+
+                    window.location.href = url;
+
+                }
+                else {
+                    $('#employeeTable').hide();
+                    $('#StartDateError').show();
+
+
+
+                }
+
+
+            }
+
+            function fetchDataForFirstTime() {
+                var url = '@Url.Action("GetEmployeeData", "Admin")';
+                url += '?startDate=' + encodeURIComponent(startDate);
+                url += '&endDate=' + encodeURIComponent(endDate);
+
+
+            }
+
+        });
+        
+    </script>
+
+
+
+
+}

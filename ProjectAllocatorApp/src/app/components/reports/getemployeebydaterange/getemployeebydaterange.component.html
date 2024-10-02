@@ -1,0 +1,70 @@
+<div class="container" style="background-color: white;">
+  <h1 class="text-center">Report</h1>
+  <h3 class="text-center">Benched Employee Based On Date Range</h3>
+  <div *ngIf="loading" class="loader-container">
+    <img src="assets/loadergif.gif" alt="Loading..." class="loader-image">
+  </div>
+  <div class="row">
+    <div class="col-lg-6 mt-3">
+      <div class="form-outline" style="width: 100%;">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" [(ngModel)]="startDate" class="form-control" (change)="getEmployeesByDateRange(); employees=[]">
+      </div>
+    </div>
+
+    <div class="col-lg-6 mt-3">
+      <div class="form-outline" style="width: 100%;">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" [(ngModel)]="endDate" class="form-control"(change)="getEmployeesByDateRange(); employees=[]">
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive mt-3" *ngIf="!loading">
+    <table class="table table-striped books-table" style="font-size: smaller; text-align: center; border-color: black; border-top: black;">
+      <thead>
+        <tr>
+          <th scope="col">Employee ID</th>
+          <th scope="col">Employee Name</th>
+         
+          <th scope="col">Bench Start Date</th>
+          <th scope="col">Bench End Date</th>
+         
+          <th scope="col">Training Name</th>
+          <th scope="col">Training Description</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Project Description</th>
+        </tr>
+      </thead>
+
+      <tbody *ngIf="employees.length == 0">
+        <tr>
+          <td colspan="8">No record found</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="employees.length > 0;">
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.employeeId }}</td>
+          <td>{{ employee.employeeName }}</td>
+          
+          <td>{{ employee.benchStartDate | date}}</td>
+          <td *ngIf="employee.benchEndDate != null">{{ employee.benchEndDate | date}}</td>
+          <td *ngIf="employee.benchEndDate == null">-</td>
+          <td *ngIf="employee.trainingId == null">Not yet allocated</td>
+          <td *ngIf="employee.trainingName == 'select'">Not yet allocated</td>
+          <td *ngIf="employee.trainingId != null && employee.trainingName != 'select'">{{ employee.trainingName }}</td>
+          <td *ngIf="employee.trainingDescription == null">Not yet allocated</td>
+          <td *ngIf="employee.trainingDescription == 'des'">Not yet allocated</td>
+          <td *ngIf="employee.trainingDescription != null && employee.trainingDescription != 'des'">{{ employee.trainingDescription }}</td>
+          <td *ngIf="employee.projectName == null">Not yet allocated</td>
+          <td *ngIf="employee.projectName == 'select'">Not yet allocated</td>
+          <td *ngIf="employee.projectName != null && employee.projectName != 'select'">{{ employee.projectName }}</td>
+          <td *ngIf="employee.projectDescription == null">Not yet allocated</td>
+          <td *ngIf="employee.projectDescription == 'des'">Not yet allocated</td>
+          <td *ngIf="employee.projectDescription != null && employee.projectDescription != 'des'">{{ employee.projectDescription }}</td>
+        </tr>
+      </tbody>
+
+    </table>  
+  </div>
+</div>

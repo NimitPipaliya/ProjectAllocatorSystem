@@ -1,0 +1,153 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model EmployeeViewModel
+
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>@Model.EmployeeName</b></h5>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Email :</strong>
+                        </div>
+                        <div class="col-md-6">
+                            @Model.EmailId
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Job Role :</strong>
+                        </div>
+                        <div class="col-md-6">
+                            @Model.JobRole.JobRoleName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Allocation Status :</strong>
+                        </div>
+                        <div class="col-md-6">
+                           @Model.allocation.Type
+                        </div>
+                    </div>
+                    @if(Model.TypeId == 1){
+                    <div class="row" >
+                        <div class="col-md-6">
+                            <strong>Bench Start Date :</strong>
+                        </div>
+                        <div class="col-md-6" >
+                                @Model.BenchStartDate.ToString("MMM dd-yyyy")
+                        </div>
+                    </div>
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <strong>Bench End Date :</strong>
+                            </div>
+                            @if(Model.BenchEndDate != null){
+                                <div class="col-md-6" *ngIf="employee.benchEndDate != null ">
+                                   @Model.BenchEndDate?.ToString("MMM dd-yyyy")
+                                </div>
+                            }
+                            else{
+                        <div class="col-md-6" >
+                            N/A
+                        </div>}
+                    </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Skills :</strong>
+                        </div>
+                        <div class="col-md-6">
+                            @foreach (var skill in Model.Skills)
+                            {
+
+                                <li>@skill</li>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <div class="text-center" style="margin-bottom: 20px;">
+        <a class="btn btn-outline-info m-1" asp-action="Edit" asp-route-id="@Model.EmployeeId">
+            <i class="fas fa-edit"></i> <b>Edit</b>
+        </a>
+            <a type="submit" class="btn btn-outline-danger m-1" title="Delete" asp-action="Delete" asp-route-id="@Model.EmployeeId" onsubmit="return confirm('Are you sure you want to delete?')">
+                <i class="fas fa-trash-alt"></i> Delete
+            </a>
+        <a class="btn btn-outline-secondary m-1" asp-action="Index"><b>Back to List</b></a>
+    </div>
+</div>
+<style>
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        margin-top: 50px;
+        margin-left: 115px;
+        font-family: sans-serif;
+    }
+
+    .container {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    .card-body .row {
+        margin-bottom: 10px;
+        margin-left: 45px;
+    }
+
+
+    .card-header {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+</style>

@@ -1,0 +1,126 @@
+
+.container{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+  .row.justify-content-center {
+    margin-top: 20px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+.custom-card {
+    max-width: 500px; 
+    margin: auto;
+    margin-top: 5%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px;
+    font-family: sans-serif;
+  }
+
+  .custom-card .card-header {
+    background-color: #009ca6; 
+    color: white; 
+    border-bottom: none; 
+  }
+
+  .custom-card .card-body {
+    padding: 20px; 
+  }
+
+  .custom-card form {
+    margin-bottom: 0; 
+  }
+
+  .custom-card .btn-primary {
+    width: 100%; 
+    background-color: #009ca6; 
+    color: white; 
+  }
+
+  .custom-card .btn-outline-danger {
+    width: 100%;
+    border-color: #DDDDDD;
+    background-color: #DDDDDD; 
+    color: black; 
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #3f51b5; /* Example focus color, adjust as needed */
+    box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25); /* Example focus shadow, adjust as needed */
+  }
+  
+
+  
+
+  .selected-skills {
+    margin-top: 10px; 
+  }
+  
+  .selected-skill {
+    display: inline-block;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px 8px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .selected-skill button {
+    margin-left: 5px;
+  }
+  
+  .skill-suggestions {
+    margin-top: 10px;
+  }
+  
+  .list-group-item {
+    cursor: pointer;
+  }
+  
+  .list-group-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .btn {
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #009ca6; 
+  }
+  
+  .btn-primary:hover {
+    background-color: #303f9f; 
+  }
+  
+  .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-outline-danger:hover {
+    color: #fff; 
+    background-color: #dc3545;
+    border-color: #dc3545; 
+  }
+  
+  #submitButton {
+    margin-right: 5px;
+  }
+  

@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
+      <div class="card custom-card">
+        <h5 class="card-header text-center"><b>Allocate Customer Project</b></h5>
+        <div *ngIf="loading" class="text-center p-3">
+          <img src="assets/loadergif.gif" alt="loading" />
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="setBenchForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label class="form-label" for="details"> Project Details</label>
+                <div class="input-group">
+                  <textarea type="form-control" class="form-control" id="details" name="details" formControlName="details" required minlength="10"></textarea>
+                </div>
+                <div *ngIf="setBenchForm.get('details')?.invalid && setBenchForm.get('details')?.touched">
+                  <small class="text-danger" *ngIf="setBenchForm.get('details')?.errors?.['required']">Project details are required.</small>
+                  <small class="text-danger" *ngIf="setBenchForm.get('details')?.errors?.['minlength']">Details must be at least 10
+                    characters long.</small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="startDate">Start date</label>
+              <div class="input-group">
+                <input type="date" id="startDate" name="startDate" class="form-control" formControlName="startDate" required [min]="minDate()">
+              </div>
+              <div *ngIf="setBenchForm.get('startDate')?.invalid && setBenchForm.get('startDate')?.touched">
+              <small class="text-danger" *ngIf="setBenchForm.get('startDate')?.errors?.['required']">Start date is
+                required.</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="endDate">End date</label>
+              <div class="input-group">
+                <input type="date" id="endDate" name="endDate" class="form-control" formControlName="endDate" [min]="minDate()">
+              </div>
+            </div>
+            <input type="hidden" formControlName="employeeId">
+            <div class="d-grid gap-2">
+              <div class="btn-group">
+                <button type="submit" [disabled]="!setBenchForm.valid"  class="btn btn-primary"><i class="fas fa-plus"></i> Add allocation</button> &nbsp;
+                <button type="submit" class="btn btn-outline-danger" [routerLink]="['/allocatorlist']" routerLinkActive="router-link-active" >Back To List</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

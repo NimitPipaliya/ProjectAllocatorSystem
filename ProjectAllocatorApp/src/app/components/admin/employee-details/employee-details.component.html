@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card custom-card">
+          <h5 class="card-header text-center"><b>{{employee.employeeName}}</b></h5>
+            
+          <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                  <strong>Email :</strong>
+                </div>
+                <div class="col-md-6">
+                  {{employee.emailId}}
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Job Role :</strong>
+              </div>
+              <div class="col-md-6">
+                {{employee.jobRole.jobRoleName}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Allocation Status :</strong>
+              </div>
+              <div class="col-md-6">
+                {{employee.allocation.type}}
+              </div>
+            </div>
+            <div class="row" *ngIf="employee.typeId==1">
+              <div class="col-md-6">
+                <strong>Bench Start Date :</strong>
+              </div>
+              <div class="col-md-6" *ngIf="employee.benchStartDate != null">
+                {{employee.benchStartDate | date}}
+              </div>
+            </div>
+            <div class="row" *ngIf="employee.typeId==1">
+              <div class="col-md-6">
+                <strong>Bench End Date :</strong>
+              </div>
+              <div class="col-md-6" *ngIf="employee.benchEndDate != null ">
+                {{employee.benchEndDate | date}}
+              </div>
+              <div class="col-md-6" *ngIf="employee.benchEndDate == null">
+                N/A
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Skills :</strong>
+              </div>
+              <div class="col-md-6">
+                <li *ngFor="let skill of employee.skills">
+                    {{skill}}
+                </li>
+              </div>
+            </div>
+          </div>
+          
+          
+        </div>
+        
+      </div>
+    </div>
+   <br />
+    <div class="text-center" style="margin-bottom: 20px;">
+      <a  class="btn btn-outline-info m-1" [routerLink]="['/updateEmployee', employee.employeeId]" routerLinkActive="router-link-active">
+        <i class="fas fa-edit"></i> <b>Edit</b>
+      </a>
+      <button  class="btn btn-outline-danger m-1" (click)="deleteBook(employee.employeeId)">
+        <i class="fas fa-trash-alt"></i> <b>Delete</b>
+      </button>
+      <a class="btn btn-outline-secondary m-1" [routerLink]="['/employeeList']" routerLinkActive="router-link-active"><b>Back to List</b></a>
+    </div>
+  </div>
+  

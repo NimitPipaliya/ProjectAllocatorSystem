@@ -1,0 +1,99 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model LoginViewModel
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>Sign In</b></h5>
+                <div class="card-body">
+                    <form asp-action="LoginUser" method="post">
+                        <div class="mb-3">
+                             <b><label asp-for="Username" class="control-label"></label></b>
+                             <input asp-for="Username" class="form-control" placeholder="Enter your username"/>
+                             <span asp-validation-for="Username" class="text-danger"></span>
+                         </div>
+                         <div class="mb-3">
+                             <b><label asp-for="Password" class="control-label"></label></b>
+                             <input asp-for="Password" class="form-control" placeholder="Enter your password"/>
+                             <span asp-validation-for="Password" class="text-danger"></span>
+                         </div>
+                    
+                         <div class="mb-3">
+                             <a asp-action="ForgetPassword" asp-controller="Auth" class="custom-link" style="margin-left: 326px;">Forgot Password?</a> 
+                         </div>
+
+                    <div class="d-grid gap-2">
+                        <div class="btn-group">
+                            <input type="submit" value="Submit" class="btn btn-primary" /> &nbsp;
+                            <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Index"><b>Cancel</b></a>
+                        </div>
+                    </div>
+                    <br />
+                        <p style="margin-left: 110px;">Don't have an account? <a asp-action="RegisterUser" class="custom-link" asp-controller="Auth" style="text-decoration: none">Sign Up</a>.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .custom-card {
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-family: sans-serif;
+        margin-top: 30px;
+    }
+
+    .custom-card .card-header {
+        background-color: #009ca6;
+        color: white;
+        border-bottom: none;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .custom-card .card-body {
+        padding: 20px;
+    }
+
+    .custom-card form {
+        margin-bottom: 0;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+
+    .custom-link {
+        color: #009CA6; /* Grey color */
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s ease; /* Smooth transition for color change */
+    }
+</style>

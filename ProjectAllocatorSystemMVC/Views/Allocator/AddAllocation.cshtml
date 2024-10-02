@@ -1,0 +1,99 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model AddAllocationViewModel
+
+
+<div class="container">
+    <div class="row justify-content-center mt-2">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>Add Allocation</b></h5>
+                <div class="card-body">
+                    <form asp-action="AddAllocation" method="post">
+                        <div>
+                            <input type="hidden" asp-for="EmployeeId" />
+                            <input type="hidden" asp-for="TypeId" value="2" />
+                            <input type="hidden" asp-for="TrainingId" />
+                            <input type="hidden" asp-for="InternalProjectId" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="StartDate" class="control-label"> Start date</label>
+                            <input type="date" asp-for="StartDate" class="form-control" />
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EndDate" class="control-label"> End date</label>
+                            <input type="date" asp-for="EndDate" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Details" class="control-label"> Details</label>
+                            <input type="textarea" asp-for="Details" class="form-control" />
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <div class="btn-group">
+                                <input type="submit" value="Add Allocation" class="btn btn-primary" /> &nbsp;
+                                <a class="btn btn-outline-danger" asp-action="Index"><b>Cancel</b></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .custom-card {
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-family: sans-serif;
+        margin-top: 30px;
+    }
+
+    .custom-card .card-header {
+        background-color: #009ca6;
+        color: white;
+        border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+    }
+
+    .custom-card .card-body {
+        padding: 20px;
+    }
+
+    .custom-card form {
+        margin-bottom: 0;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+
+    .custom-card .btn-primary {
+        width: 100%;
+        background-color: #009ca6;
+        color: white;
+    }
+
+    .custom-card .btn-outline-danger {
+        width: 100%;
+        border-color: #DDDDDD;
+        background-color: #DDDDDD;
+        color: black;
+    }
+</style>

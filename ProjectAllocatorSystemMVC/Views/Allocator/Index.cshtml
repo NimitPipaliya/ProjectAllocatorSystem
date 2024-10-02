@@ -1,0 +1,398 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model List<AllocatorListViewModel>
+
+@{
+    ViewBag.Title = "Employees";
+    string search = ViewBag.Search as string;
+    var previousPageNumber = @ViewBag.CurrentPage - 1;
+    var nextPageNumber = @ViewBag.CurrentPage + 1;
+    var sortBy = @ViewBag.SortBy;
+}
+
+<div class="container" >
+    <h1 class="text-center">@ViewBag.Title</h1>
+    <form method="get" class="mb-3">
+        <div class="input-group"
+             style="background-color: white;">
+            <input type="search" id="search-focus" id="form" name="search" class="form-control" value="@search" autocomplete="off" style="border-color:#7B57CB; width:80%;">
+            @* <input type="hidden" name="page" value="@ViewBag.CurrentPage" />
+            <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+            <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" /> *@
+            <div class="input-group-append">
+                <button type="submit" class="btn" style="color:white; background-color: #17a2b8;">Search</button>
+            </div>
+            @if (!string.IsNullOrEmpty(search))
+            {
+                <div class="input-group-append">
+                    <a asp-action="Index" class="btn btn-secondary" >Clear</a>
+                </div>
+            }
+        </div>
+        <div>
+            @if (!string.IsNullOrEmpty(ViewBag.Search) && ViewBag.Search.Length <= 2)
+            {
+                <small class="text-secondary">Search query must be at least 2 characters</small>
+            }
+        </div>
+    </form>
+    <br />
+    <div class="table-responsive">
+
+        <table class="table table-striped " style="font-size: smaller; text-align: center; border-color: black; border-top: black;">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>
+                        <div onclick="setColumn('name','!@ViewBag.SortOrder')" class="sort" style="display:flex; align-items: center;justify-content: center;">
+                            Name
+                            <div onclick="setColumn('name','!@ViewBag.SortOrder')" style="display: flex; flex-direction: column; margin-left: 5px;">
+                                @if (sortBy == "name")
+                                {
+                                    @if  (ViewBag.SortOrder == "asc")
+                                    {
+                                        <i class="fas fa-sort-alpha-asc"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-sort-alpha-desc"></i>
+                                    }
+                                }
+                                else
+                                {
+                                        <i class="fas fa-sort"></i>
+                                }
+                            </div>
+                            
+                        </div>
+                    </th>
+                    <th>Email Id</th>
+                    <th>
+                        <div onclick="setColumn('jobRole','!@ViewBag.SortOrder')" class="sort" style="display:flex; align-items: center;justify-content: center;">
+                            Job Role
+                            <div style="display: flex; flex-direction: column; margin-left: 5px;" onclick="setColumn('jobRole','!@ViewBag.SortOrder')">
+                                @if (sortBy == "jobRole")
+                                {
+                                    @if (ViewBag.SortOrder == "asc")
+                                    {
+                                        <i class="fas fa-sort-alpha-asc"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-sort-alpha-desc"></i>
+                                    }
+                                }
+                                else
+                                {
+                                    <i class="fas fa-sort"></i>
+                                }
+                            </div>
+                        </div>
+                    </th>
+                    <th>Allocation Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model.Count() == 0)
+                {
+                    <tr style="background: darkgrey;">
+                        <td colspan="6" class="text-center justify-content-center">No Employees Found</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(Model.ToList().IndexOf(item) + 1 + (ViewBag.PageSize * (ViewBag.CurrentPage - 1)))</td>
+                            <td>@item.EmployeeName</td>
+                            <td>@item.EmailId</td>
+                            <td>@item.JobRole.JobRoleName</td>
+                            @if(item.TypeId == 1)
+                            {
+                                <td>On Bench</td>
+                            }
+                            else
+                            {
+                                <td>Allocated</td>
+                            }
+                            @if(item.TypeId == 1)
+                            {
+                               <td> <a asp-action="AddAllocation" asp-route-id = "@item.EmployeeId" class="btn btn-outline-secondary">Allocate Project</a></td>
+                            }
+                            else
+                            {
+                                <td> <a asp-action="SetBenchForm" asp-route-id="@item.EmployeeId" class="btn btn-outline-secondary">Set On Bench</a></td>
+                            }
+
+                        </tr>
+                    }
+                }
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.Count > 0)
+{
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <!-- Page size dropdown -->
+        <div>
+            <label for="pageSize">Page Size:</label>
+            <div>
+                <select id="pageSize" onchange="changePageSize(this)" class="form-control">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="/Allocator/Index?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@previousPageNumber&pageSize=@ViewBag.PageSize&sortOrder=@ViewBag.SortOrder"><i class="fa fa-chevron-left"></i></a>
+            </li>
+
+            @if (ViewBag.TotalPages <= 3)
+            {
+                // Display all pages if total pages are 3 or less
+                for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="/Allocator/Index?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@i&pageSize=@ViewBag.PageSize&sortOrder=@ViewBag.SortOrder">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                // range of pages to display
+                int startPage = Math.Max(1, ViewBag.CurrentPage - 1);
+                int endPage = Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 1);
+
+                if (ViewBag.CurrentPage <= 2)
+                {
+                    startPage = 1;
+                    endPage = 3;
+                }
+                else if (ViewBag.CurrentPage >= ViewBag.TotalPages - 1)
+                {
+                    startPage = ViewBag.TotalPages - 2;
+                    endPage = ViewBag.TotalPages;
+                }
+
+                for (int i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="/Allocator/Index?search=@ViewBag.Search&sortBy=@ViewBag.SortBy&page=@i&pageSize=@ViewBag.PageSize&sortOrder=@ViewBag.SortOrder">@i</a>
+                    </li>
+                }
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="/Allocator/Index?search=@ViewBag.Search&page=@nextPageNumber&pageSize=@ViewBag.PageSize"><i class="fa fa-chevron-right"></i></a>
+            </li>
+        </ul>
+    </div>
+}
+
+
+@section scripts {
+    <script>
+        // Initialize page size dropdown with current selected size
+        document.addEventListener("DOMContentLoaded", function () {
+            var currentPageSize = "@ViewBag.PageSize";
+            var pageSizeDropdown = document.getElementById("pageSize");
+            for (var i = 0; i < pageSizeDropdown.options.length; i++) {
+                if (pageSizeDropdown.options[i].value === currentPageSize.toString()) {
+                    pageSizeDropdown.selectedIndex = i;
+                    break;
+                }
+            }
+        });
+
+        // Function to handle page size change
+        function changePageSize(select) {
+            var pageSize = select.value;
+            var currentPage = "@ViewBag.CurrentPage";
+            var search = "@ViewBag.Search";
+            var sort = "@ViewBag.SortOrder"
+            var sortBy = "@ViewBag.SortBy"
+            window.location.href = "/Allocator/Index?search=" + search + "&page=" + currentPage + "&pageSize=" + pageSize + "&sortOrder=" + sort;
+        }
+
+        function changePage(search = null, page, pageSize,sortBy ,sortDir) {
+            if (sortDir == '!asc') {
+                sortDir = 'desc';
+            }
+            if (sortDir == '!desc') {
+                sortDir = 'asc';
+            }
+
+            window.location.href = "/Allocator/Index" +
+                "?search=@ViewBag.Search" +
+                "&sortBy=" + @sortBy +
+                "&page=" + @ViewBag.CurrentPage +
+                "&pageSize=" + @ViewBag.PageSize +
+                "&sortOrder=" + sortDir;
+        }
+
+        function setColumn(column, sortDir) {
+            sortBy = column;
+            // @ViewBag.SortOrder = "asc";
+            if (sortDir == '!asc') {
+                sortDir = 'desc';
+            }
+            if (sortDir == '!desc') {
+                sortDir = 'asc';
+            }
+
+            window.location.href = "/Allocator/Index" +
+                "?search=@ViewBag.Search" +
+                "&sortBy=" + column +
+                "&page=" + @ViewBag.CurrentPage +
+                "&pageSize=" + @ViewBag.PageSize +
+                "&sortOrder=" + sortDir;
+        }
+    </script>
+}
+
+<style>
+    .arrowup,
+    .arrowdown,
+    .sort {
+        cursor: pointer;
+    }
+
+
+
+    .custom-select {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 14px;
+        margin-bottom: 3px;
+        cursor: pointer;
+    }
+
+    .arrowup,
+    .arrowdown {
+        display: inline-block;
+        vertical-align: bottom;
+        cursor: pointer;
+    }
+
+    .arrowup {
+        margin-bottom: 3px;
+    }
+
+    .arrowdown {
+        margin-left: -2px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+    }
+
+    .container {
+        font-family: sans-serif;
+    }
+
+
+    th {
+        background-color: #e4f7f6;
+    }
+
+
+    .btn {
+        font-size: 14px;
+    }
+
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #D62598;
+            color: white;
+        }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        color: #D62598;
+        border-color: #D62598;
+    }
+
+        .btn-outline-secondary:hover{
+            background-color: #D62598;
+            color: white;
+        }
+
+    .page-link:hover {
+        background-color: #D62598;
+        color: white;
+    }
+
+    .custom:disabled {
+        background-color: #17a2b8;
+    }
+
+    .btn-outline-dark:hover {
+        background-color: #D62598;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px; /* Add margin top for spacing */
+        margin-bottom: 20px; /* Add margin bottom for spacing */
+    }
+
+        .pagination li {
+            list-style-type: none; /* Remove default list styling */
+        }
+
+        .pagination .page-link {
+            color: #7b57cb; /* Default link color */
+            background-color: transparent;
+            border: 1px solid #dee2e6; /* Add border */
+            cursor: pointer;
+            transition: color 0.3s, background-color 0.3s, border-color 0.3s; /* Smooth transition */
+            padding: 0.5rem 0.75rem; /* Padding for the link */
+            border-radius: 0.25rem; /* Rounded corners */
+        }
+
+            .pagination .page-link:hover {
+                color: white; /* Darker blue color on hover */
+                text-decoration: none; /* Remove underline on hover */
+                border-color: #adb5bd; /* Adjust border color on hover */
+            }
+
+        .pagination .page-item.disabled .page-link {
+            color: #a5a2a2; /* Faded text color for disabled buttons */
+            pointer-events: none; /* Disable pointer events for disabled buttons */
+            background-color: #e9ecef;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #17a2b8; /* Active page background color */
+            color: #fff; /* Active page text color */
+            border-color: #17a2b8; /* Active page border color */
+            cursor: pointer;
+        }
+
+    .page-link:hover {
+        background-color: #D62598;
+    }
+</style>

@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card custom-card">
+          <h5 class="card-header text-center"><b>Add Employee</b></h5>
+          <div *ngIf="loading" class="text-center p-3">
+            <img src="assets/loadergif.gif" alt="loading" />
+          </div>
+  
+          <div class="card-body">
+            <form [formGroup]="empForm" (ngSubmit)="OnSubmit()">
+              <div class="mb-3">
+                <label for="employeeName" class="form-label"><b>Employee Name:</b></label>
+                <input type="text" class="form-control" id="employeeName" formControlName="employeeName">
+                <div *ngIf="formControl['employeeName'].invalid && formControl['employeeName'].touched">
+                  <small class="text-danger" *ngIf="formControl['employeeName'].errors?.['required']">Employee name is required</small>
+                  <small class="text-danger" *ngIf="formControl['employeeName'].errors?.['minlength']">Employee name must be at least 2 characters</small>
+                  <small class="text-danger" *ngIf="formControl['employeeName'].errors?.['maxlength']">Employee name must be up to 50 characters only.</small>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="emailId" class="form-label"><b>Email:</b></label>
+                <input type="text" class="form-control" id="emailId" formControlName="emailId">
+                <div *ngIf="formControl['emailId'].invalid && formControl['emailId'].touched">
+                  <small class="text-danger" *ngIf="formControl['emailId'].errors?.['required']">Email is required.</small>
+                  <small class="text-danger" *ngIf="formControl['emailId'].errors?.['email']">Email must be in proper format.</small>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="benchStartDate" class="form-label"><b>Bench Start Date:</b></label>
+                <input type="date" class="form-control" id="benchStartDate" formControlName="benchStartDate" [min]="minDate()">
+                <div *ngIf="formControl['benchStartDate'].invalid && formControl['benchStartDate'].touched">
+                  <small class="text-danger" *ngIf="formControl['benchStartDate'].errors?.['required']">Bench start date is required</small>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="benchEndDate" class="form-label"><b>Bench End Date:</b></label>
+                <input type="date" class="form-control" id="benchEndDate" formControlName="benchEndDate">
+              </div>
+              <div class="mb-3">
+                <label for="jobRoleId" class="form-label"><b>Job Role:</b></label>
+                <select class="form-select" id="jobRoleId" formControlName="jobRoleId">
+                  <option value=null selected disabled>Select Job Role</option>
+                  <option value="1">Developer</option>
+                  <option value="2">Tester</option>
+                  <option value="3">Business Analyst (BA)</option>
+                </select>
+                <div *ngIf="formControl['jobRoleId'].invalid && formControl['jobRoleId'].touched">
+                  <small class="text-danger" *ngIf="formControl['jobRoleId'].errors?.['required']">Job role is required</small>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="skills" class="form-label"><b>Skills:</b></label>
+                <textarea class="form-control" id="skills" formControlName="skills" placeholder="Add skills separated by commas" rows="3"
+                (input)="onSkillInput($event)"></textarea>
+                       <div *ngIf="formControl['skills'].invalid && formControl['skills'].touched">
+                        <small class="text-danger" *ngIf="formControl['skills'].errors?.['required']">Skills is required</small>
+                      </div>
+                <div *ngIf="showSuggestions && selectedSkills.length > 0" class="skill-suggestions">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let skill of selectedSkills" (click)="addSkill(skill)" style="cursor: pointer;">
+                      {{ skill }}
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="skills.length > 0" class="selected-skills">
+                  <span *ngFor="let skill of skills; let i = index;" class="selected-skill" >
+                    {{ skill }}
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeSkill(i)">x</button>
+                  </span>
+                </div>
+              </div>
+  
+              <div class="d-grid gap-2">
+                <div class="btn-group">
+                  <button id="submitButton" type="submit" class="btn btn-primary" [disabled]="empForm.invalid"><b>Add</b></button> &nbsp;
+                  <a class="btn btn-outline-danger" [routerLink]="['/employeeList']" routerLinkActive="router-link-active"><b>Cancel</b></a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

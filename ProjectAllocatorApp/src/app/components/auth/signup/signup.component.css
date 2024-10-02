@@ -1,0 +1,61 @@
+.loader-overlay {
+    height: 100vh;
+    width: 50%;
+    align-items: center;
+    vertical-align: middle;
+}
+.container{
+  margin-bottom: 2%;
+  margin-top: 2%;
+}
+.custom-card {
+    max-width: 800px; 
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px;
+    font-family: sans-serif;
+  }
+
+  .custom-card .card-header {
+    background-color: #009ca6; 
+    color: white; 
+    border-bottom: none; 
+  }
+
+  .custom-card .card-body {
+    padding: 20px; 
+  }
+
+  .custom-card form {
+    margin-bottom: 0; 
+  }
+
+  .custom-card .btn-primary {
+    width: 100%; 
+    background-color: #009ca6; 
+    color: white; 
+  }
+
+  .custom-card .btn-outline-danger {
+    width: 100%;
+    border-color: #DDDDDD;
+    background-color: #DDDDDD; 
+    color: black; 
+  }
+  .centered-dropdown {
+    text-align-last: center; /* For Firefox */
+    text-align: center; /* For other browsers */
+  }
+  
+  .centered-dropdown option[disabled] {
+    text-align: center;
+  }
+  .custom-link {
+    color: #009CA6; /* Grey color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.custom-link:hover {
+    color: #007bff; /* Change color on hover to blue */
+}

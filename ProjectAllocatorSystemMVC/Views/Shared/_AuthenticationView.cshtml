@@ -1,0 +1,47 @@
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" asp-action="RegisterUser" asp-controller="Auth" style="font-weight: bold; position: relative"><span class="fa fa-user text-white"></span><span class="hover-text text-white">  Sign Up</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-action="LoginUser" asp-controller="Auth" style="font-weight: bold; position: relative;"><span class="fa fa-sign-in-alt text-white"></span><span class="hover-text text-white"> Sign In</span></a>
+        </li>
+    </ul>
+}
+else
+{
+    var userRole = User.FindFirst("UserRole").Value;
+    <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #009CA6">
+        <div class="container-fluid">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-capitalize text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="fa fa-user text-white"></span> @User.Identity.Name
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        @if (userRole == "2" || userRole == "1")
+                        {
+                            <li><a class="dropdown-item" asp-action="ChangePassword" asp-controller="Auth"><span class="fa fa-key"></span> Change Password</a></li>
+                        }
+                        <li><a class="dropdown-item" asp-action="Logout" asp-controller="Auth"><span class="fa fa-sign-out"></span> Sign out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+}
+
+<style>
+    .nav-item:hover {
+        background-color: #7B57CB;
+        cursor: pointer
+    }
+
+    .dropdown-item:hover {
+        background-color: #7B57CB;
+    }
+</style>
+

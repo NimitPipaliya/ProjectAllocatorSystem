@@ -1,0 +1,29 @@
+/* Resetting default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styling the footer */
+.footer {
+    background-color: #009CA6; 
+    color: #fff; 
+    text-align: center; 
+    padding: 20px 0;
+    width: 100%; 
+    bottom: 0; 
+}
+
+.footer p {
+    margin: 0; 
+}
+
+.footer a {
+    color: #fff; /* White text color for links */
+    text-decoration: none; /* Remove underline */
+}
+
+.footer a:hover {
+    text-decoration: underline; /* Underline on hover */
+}

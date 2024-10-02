@@ -1,0 +1,53 @@
+.loader-overlay {
+    height: 50%;
+    width: 50%;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.custom-card {
+    max-width: 500px; 
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px;
+    font-family: sans-serif;
+  }
+.container{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+  .custom-card .card-header {
+    background-color: #009ca6; 
+    color: white; 
+    border-bottom: none; 
+  }
+
+  .custom-card .card-body {
+    padding: 20px; 
+  }
+
+  .custom-card form {
+    margin-bottom: 0; 
+  }
+
+  .custom-card .btn-primary {
+    width: 100%; 
+    background-color: #009ca6; 
+    color: white; 
+  }
+
+  .custom-card .btn-outline-danger {
+    width: 100%;
+    border-color: #DDDDDD;
+    background-color: #DDDDDD; 
+    color: black; 
+  }
+  .custom-link {
+    color: #009CA6; /* Grey color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.custom-link:hover {
+    color: #007bff; /* Change color on hover to blue */
+}

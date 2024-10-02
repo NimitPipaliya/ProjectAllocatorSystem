@@ -1,0 +1,219 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+
+@model UpdateEmployeeViewModel
+
+<h1 class="text-center my-6">Modify Employee</h1>
+<div class="d-flex justify-content-center">
+    <div class="card shadow-sm p-4" style="max-width: 800px; width: 100%;">
+        <!-- Increased max-width for larger card -->
+        <form asp-action="Edit" enctype="multipart/form-data" novalidate>
+            <input type="hidden" asp-for="EmployeeId" />
+            <input type="hidden" asp-for="TypeId" />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label asp-for="EmployeeName" class="form-label"><b>Employee Name</b></label>
+                        <input asp-for="EmployeeName" class="form-control" placeholder="Enter Employee name" />
+                        <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label asp-for="EmailId" class="form-label"><b>Email</b></label>
+                        <input asp-for="EmailId" class="form-control" placeholder="Enter email" />
+                        <span asp-validation-for="EmailId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label asp-for="BenchStartDate" class="form-label"><b>BenchStart Date</b></label>
+                        <input asp-for="BenchStartDate" class="form-control" placeholder="Select BenchStart Date" />
+                        <span asp-validation-for="BenchStartDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group mb-3">
+                        <label asp-for="BenchEndDate" class="form-label"><b>BenchEndDate</b></label>
+                        <input asp-for="BenchEndDate" class="form-control" placeholder="Select BenchEnd Date" />
+                        <span asp-validation-for="BenchEndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="JobRoleId" class="form-label"><b>Job Role:</b></label>
+                    <select asp-for="JobRoleId" class="form-select" id="jobRoleId" asp-validation-for="JobRoleId">
+                        <option value="0" selected disabled>Select Job Role</option>
+                        <option value="1">Developer</option>
+                        <option value="2">Tester</option>
+                        <option value="3">Business Analyst (BA)</option>
+                    </select>
+                    <span asp-validation-for="JobRoleId" class="text-danger"></span>
+                </div>
+                
+
+                <div class="mb-3">
+                    <label asp-for="Skills" class="form-label"><b>Skills:</b></label>
+                    <textarea id="skills" asp-for="Skills" class="form-control" placeholder="Add skills separated by commas" rows="3"></textarea>
+                    <span asp-validation-for="Skills" class="text-danger"></span>
+
+                    <div id="skillSuggestions" class="skill-suggestions" style="display: none;">
+                        <ul id="suggestionList" class="list-group"></ul>
+                    </div>
+
+                   @*  <div id="selectedSkills" class="selected-skills">
+                        @if (Model.Skills != null)
+                        {
+                            foreach (var skill in Model.Skills)
+                            {
+                                <span class="selected-skill">
+                                    @skill
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSkill('@skill')">x</button>
+                                </span>
+                            }
+                        }
+                    </div> *@
+                </div>
+               
+
+            </div>
+
+
+
+            <div class="row">
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-grid mb-3">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                    <div class="d-grid">
+                        <a asp-action="Index" class="btn btn-secondary">Back to Homepage</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-secondary {
+        border-radius: 5px;
+    }
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(function () {
+
+
+        // Show skills textarea if skills are present
+        var skills = @Html.Raw(Json.Serialize(Model.Skills));
+        if (skills && skills.length > 0) {
+            $('#skills').val(skills.join(', ')); // Assuming skills is an array of strings
+            $('#skills').show();
+        }
+        // Initially hide all supplier options
+        $('#positionDropdown option').hide();
+
+        // Get the initially selected category
+        var initialCategory = $('#divisionDropdown').val();
+
+        // Show supplier options corresponding to the initially selected category
+        $('#positionDropdown option[data-category="' + initialCategory + '"]').show();
+
+        $('#divisionDropdown').change(function () {
+            var countryId = $(this).val();
+            if (countryId === '') {
+                $('#positionDropdown option').hide();
+                $('#positionDropdown ').val('');
+            }
+            else {
+                $('#positionDropdown option').hide();
+                $('#positionDropdown option[data-category="' + countryId + '"]').show();
+
+            }
+            $('#positionDropdown').val('');
+        });
+    });
+    var skillsSuggestions = [
+        "Web Forms", "MVC", ".Net Core", "Blazor", "Angular", "PHP", "Java", "React",
+        "TypeScript", "Power BI", "MS SQL Server", "Oracle"
+    ];
+
+    $('#skills').on('input', function () {
+        var value = $(this).val().trim();
+        var segments = value.split(',');
+        var lastSegment = segments[segments.length - 1].trim();
+
+        if (lastSegment.length > 2) {
+            var filteredSuggestions = skillsSuggestions.filter(function (skill) {
+                return skill.toLowerCase().includes(lastSegment.toLowerCase()) && !value.includes(skill);
+            });
+
+            var listItems = '';
+            filteredSuggestions.forEach(function (skill) {
+                listItems += '<li class="list-group-item suggestion-item" onclick="addSkill(\'' + skill + '\')" style="cursor: pointer;">' + skill + '</li>';
+            });
+
+            $('#suggestionList').html(listItems);
+            $('#skillSuggestions').show();
+        } else {
+            $('#skillSuggestions').hide();
+        }
+    });
+    function addSkill(skill) {
+        var skillsTextArea = document.getElementById('skills');
+        var currentValue = skillsTextArea.value.trim();
+        var segments = currentValue.split(',');
+        var lastSegment = segments[segments.length - 1].trim();
+
+        if (lastSegment.length > 2) {
+            skillsTextArea.value = currentValue.replace(lastSegment, skill);
+        } else {
+            skillsTextArea.value += skill;
+        }
+
+        $('#skillSuggestions').hide();
+        validateSkills();
+    }
+
+    // function removeSkill(skill) {
+    //     var skillsTextArea = document.getElementById('skills');
+    //     var currentValue = skillsTextArea.value;
+    //     var updatedValue = currentValue.replace(skill, '').replace(/,\s*,/g, ',').replace(/,$/, '').trim();
+    //     skillsTextArea.value = updatedValue;
+    //     $('#selectedSkills').find('span:contains("' + skill + '")').remove();
+    //     validateSkills();
+    // }
+
+</script>
+
+

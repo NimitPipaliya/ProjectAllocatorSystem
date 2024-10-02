@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row justify-content-center mt-2">
+      <div class="col-lg-8">
+        <div class="card custom-card">
+          <h5 class="card-header text-center"><b>Sign In</b></h5>
+          <div *ngIf="loading" class="text-center p-3">
+            <img src="assets/loadergif.gif" alt="loading" />
+          </div>
+          
+          <div class="card-body">
+                <form (ngSubmit)="login()" #loginForm="ngForm">
+                    <div class="mb-3">
+                        <label for="username"><b>Username:</b></label>
+                        <input type="text" id="username" name="username" class="form-control" [(ngModel)]="username"
+                            required #usernameInput="ngModel" placeholder="Enter your username">
+                        <div *ngIf="usernameInput.touched && usernameInput.errors?.['required']" class="text-danger">
+                            Username is
+                            required.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password"><b>Password:</b></label>
+                        <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password"
+                            required #passwordInput="ngModel" placeholder="Enter your password">
+                        <div *ngIf="passwordInput.touched && passwordInput.errors?.['required']" class="text-danger">
+                            Password is
+                            required.</div>
+                    </div>
+                    <div class="mb-3">
+                    <a [routerLink]="['/forgetPassword']" routerLinkActive="router-link-active" class="custom-link" style="margin-left: 330px;">Forgot password?</a> 
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button> &nbsp;
+                        <button type="submit" class="btn btn-outline-danger" [routerLink]="['/home']" routerLinkActive="router-link-active" >Cancel</button>
+                      </div>  
+                    </div>
+                    <br >
+                    
+                    <p style="margin-left: 100px;">Don't have an account? <a [routerLink]="['/signup']" routerLinkActive="router-link-active" class="custom-link">Sign Up</a></p>
+                    
+                </form>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

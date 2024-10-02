@@ -1,0 +1,39 @@
+.container{
+  font-family: sans-serif;
+  margin-top: 2%;
+}
+
+th {
+  background-color: #e4f7f6;
+}
+.btn-outline-danger{
+  margin: 5px; 
+  border-radius: 15px; 
+  border-color: #D62598; 
+  color: #D62598;
+}
+
+.btn-outline-danger:hover{
+  background-color: #D62598;
+  color: #fff;
+}
+
+
+.custom:disabled{
+  background-color: #17a2b8; 
+}
+
+.btn-outline-dark:hover{
+  background-color: #D62598;
+}
+
+
+.custom-select {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  margin-bottom: 3px;
+  cursor: pointer;
+}

@@ -1,0 +1,162 @@
+﻿@using ProjectAllocatorSystemMVC.ViewModels
+@model EmployeeManagerDetails
+
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card custom-card">
+                <h5 class="card-header text-center"><b>@Model.Employee.EmployeeName</b></h5>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Status</strong>
+                        </div>
+                        @if(Model.TrainingId == 1 && Model.InternalProjectId == 1)
+                        {
+                           <div class="col-md-6">
+                            No Training/Internal project allocated...
+                        </div>  
+                        }
+                        @if (Model.TrainingId == 1 && Model.InternalProjectId != 1)
+                        {
+                            <div class="col-md-6">
+                                In Internal Project
+                            </div>
+                        }
+                        @if (Model.TrainingId != 1 && Model.InternalProjectId == 1)
+                        {
+                            <div class="col-md-6">
+                                In Training
+                            </div>
+                        }
+                      
+                   </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Area</strong>
+                        </div>
+                        @if (Model.TrainingId == 1 && Model.InternalProjectId == 1)
+                        {
+                            <div class="col-md-6">
+                                -
+                            </div>
+                        }
+                        @if (Model.TrainingId == 1 && Model.InternalProjectId != 1)
+                        {
+                            <div class="col-md-6">
+                               @Model.InternalProject.Name
+                            </div>
+                        }
+                        @if (Model.TrainingId != 1 && Model.InternalProjectId == 1)
+                        {
+                            <div class="col-md-6">
+                                @Model.Training.Name
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Details</strong>
+                        </div>
+                        @if (Model.TrainingId == 1 && Model.InternalProjectId == 1)
+                        {
+                            <div class="col-md-6">
+                                -
+                            </div>
+                        }
+                        @if (Model.TrainingId == 1 && Model.InternalProjectId != 1)
+                        {
+                            <div class="col-md-6">
+                                @Model.InternalProject.Description
+                            </div>
+                        }
+                        @if (Model.TrainingId != 1 && Model.InternalProjectId == 1)
+                        {
+                            <div class="col-md-6">
+                                @Model.Training.Description
+                            </div>
+                        }
+                    </div>
+         
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <div class="text-center" style="margin-bottom: 20px;">
+        <a class="btn btn-outline-info m-1" asp-action="AllocateTask" asp-controller="Manager" asp-route-id="@Model.EmployeeId">
+            <i class="fas fa-edit"></i> <b>Allocate</b>
+        </a>
+        <a class="btn btn-outline-secondary m-1" asp-action="Index" asp-controller="Manager"><b>Back to List</b></a>
+    </div>
+</div>
+
+
+        <style>
+    .card {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        margin-top: 50px;
+        margin-left: 115px;
+        font-family: sans-serif;
+    }
+
+    .container {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .btn {
+        font-size: 14px;
+    }
+
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+
+    .card-body .row {
+        margin-bottom: 10px;
+        margin-left: 45px;
+    }
+
+
+    .card-header {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+</style>
